@@ -1,0 +1,48 @@
+class Solution {
+    public List<int> nextGreater(List<int> A) {
+        
+        var next = new List<int>();
+        
+        if (A == null || A.Count == 0 || A.Count == 1){
+            next.Add(-1);
+            return next;
+        }
+        
+        var arr = A.ToArray();
+        var stack = new Stack<int>();
+        stack.Push(0);
+        
+        var arrNext = new int[arr.Length];
+        
+        for (int i = 1; i < arr.Length; i++)
+        {
+            if (stack.Count != 0) 
+            {
+                var prev = stack.Pop();
+                
+                while (arr[prev] < arr[i]) 
+                {
+                    arrNext[prev] = arr[i];
+                    
+                    if(stack.Count == 0)
+                        break;
+                    
+                    prev = stack.Pop();
+                }
+                
+                if (arr[prev] >= arr[i])
+                    stack.Push(prev);
+            }
+            
+            stack.Push(i);
+        }
+        
+        while (stack.Count > 0)
+        {
+            var c = stack.Pop();
+            arrNext[c] = -1;
+        }
+        
+        return arrNext.ToList();
+    }
+}

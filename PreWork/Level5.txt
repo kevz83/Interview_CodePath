@@ -1,0 +1,57 @@
+class Solution {
+    public List<List<int>> permute(List<int> A) {
+        
+        if (A == null || A.Count == 0)
+            return null;
+        
+        var arrList = new List<List<int>>();
+        
+        FindPerms(A, 0, arrList);
+        
+        return arrList;
+    }
+    
+    public bool ConductSwap(List<int> arr, int start, int curr)
+    {
+        for (int i = start; i < curr; i++)
+        {
+            if (arr[i] == arr[curr])
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public void Swap(List<int> arr, int a, int b)
+    {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+    }
+    
+    public void FindPerms(List<int> arr, int index, List<List<int>> arrList)
+    {
+        if (index == arr.Count){
+            
+            var l = new List<int>();
+            for (int i = 0; i < arr.Count; i++)
+                l.Add(arr[i]);
+                
+            arrList.Add(l);
+        }
+        
+        for (int i = index; i < arr.Count; i++)
+        {
+            bool check = ConductSwap(arr, index, i);
+            
+            if (check)
+            {
+                Swap(arr, index, i);
+                FindPerms(arr, index + 1, arrList);
+                Swap(arr, index, i);
+            }
+        }
+    }
+}

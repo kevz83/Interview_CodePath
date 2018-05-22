@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+
+class Solution {
+    public int kthsmallest(List<int> A, int B) {
+        int[] arr = A.ToArray();
+        
+        if (A == null || arr.Length == 0 || arr.Length < B)
+            return Int32.MaxValue;
+        
+        for (int i = 0; i < arr.Length; i++)
+        {
+           // Console.WriteLine(arr[i]);
+        }
+        
+        //return -1;
+        return ksmallest(arr, 0, arr.Length - 1, B);
+    }
+    
+    private int ksmallest(int[] arr, int low, int high, int k)
+    {
+        int k1 = k - 1;
+        
+        //Console.WriteLine("k1" + k1);
+        
+        var p = partition(arr, low, high);
+        
+        Console.WriteLine("p " + p);
+        
+        if (p == k1){
+            return arr[p];
+        }
+            
+        if (p > k1)
+            return ksmallest(arr, low, p - 1, k);
+        
+        return ksmallest(arr, p+1, high, k);
+    }
+    
+    private int partition(int[] arr, int low, int high) {
+        int i = low;
+        int p = arr[high];
+        
+        for (int j = low; j < high; j++)
+        {
+           if (arr[j] <= p){
+               var temp = arr[j];
+               arr[j] = arr[i];
+               arr[i] = temp;
+               i++;
+           }
+        }
+        
+        var tmp = arr[high];
+        arr[high] = arr[i];
+        arr[i] = tmp;
+        
+        return i;
+    }
+}
